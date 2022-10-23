@@ -19,12 +19,12 @@ HISTSIZE=-1
 HISTFILESIZE=-1
 
 # fzf
-source /usr/share/fzf/completion.bash
-source /usr/share/fzf/key-bindings.bash
+[[ -f /usr/share/fzf/completion.bash ]] && source /usr/share/fzf/completion.bash
+[[ -f /usr/share/fzf/key-bindings.bash ]] && source /usr/share/fzf/key-bindings.bash
 
 # Some good utils
-eval "$(starship init bash)"
-eval "$(zoxide init bash)"
+# eval "$(starship init bash)"
+# eval "$(zoxide init bash)"
 
 # Aliases
 alias ls='ls --color=auto --group-directories-first'
@@ -87,4 +87,4 @@ joke() {
 }
 
 # Prompt
-# PS1='\[\e[1;31m\][\[\e[1;33m\]\u\[\e[1;32m\]@\[\e[1;34m\]\h \[\e[1;35m\]\w\[\e[1;31m\]]\[\e[1;00m\]\$\[\e[0;00m\] '
+PS1='\[\e[1;31m\][\[\e[1;33m\]\u\[\e[1;32m\]@\[\e[1;34m\]\h \[\e[1;35m\]\w\[\e[1;31m\]]\[\e[1;00m\]\$\[\e[0;00m\] '
