@@ -1,0 +1,17 @@
+#!/bin/python
+
+import json
+
+f = open('remotes.json','r')
+
+data = json.load(f)
+for i in data:
+    remote = f"[{i['name']}]\n" \
+            f"type = drive\n" \
+            f"token = \n" \
+            f"team_drive = {i['id']}\n" \
+            f"root_folder_id = \n"
+            
+    print(remote)
+
+f.close()

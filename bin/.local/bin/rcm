@@ -1,0 +1,14 @@
+#!/bin/bash
+
+remote="$(rclone listremotes | fzf)"
+remote="${remote%:}"
+
+if [ ! -d /mnt/rclone/$remote ]; then
+	mkdir -p /mnt/rclone/$remote
+fi
+
+rclone mount \
+	--daemon \
+	--vfs-cache-mode full \
+	$remote: \
+	/mnt/rclone/$remote

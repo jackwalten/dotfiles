@@ -1,0 +1,2 @@
+-S "codec:h264","res:1080"
+-o "%(title)s.%(ext)s"

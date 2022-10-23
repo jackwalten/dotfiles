@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rclone --config=/home/catharsis/.config/rclone/rclone.conf rcd --rc-web-gui --rc-user admin --rc-pass admin
