@@ -26,3 +26,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export TERMINAL=xfce4-terminal
 export BROWSER=brave
+
+if [ "$(tty)" = "/dev/tty1" ]; then
+       pgrep xfce4 || startx "$XDG_CONFIG_HOME/X11/xinitrc"
+fi       
