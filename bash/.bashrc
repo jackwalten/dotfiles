@@ -33,8 +33,6 @@ alias freyr='docker run -it --rm -v $PWD:/data freyrcli/freyrjs'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
-alias yay='paru'
-alias cd='z'
 
 # Functions
 lfcd () {
