@@ -11,11 +11,11 @@ setopt autocd
 source ~/.config/zsh/plugins/zsh-snap/znap.zsh  # Start Znap
 
 # `znap prompt` makes your prompt visible in just 15-40ms!
-# znap prompt sindresorhus/pure
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
-source $ZDOTDIR/zsh-aliases
-source $ZDOTDIR/zsh-functions
+znap prompt sindresorhus/pure
+# eval "$(starship init zsh)"
+# eval "$(zoxide init zsh)"
+[ -f $HOME/.config/shell/aliases ] && source $HOME/.config/shell/aliases
+[ -f $HOME/.config/shell/functions ] && source $HOME/.config/shell/functions
 
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh

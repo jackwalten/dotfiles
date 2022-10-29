@@ -1,10 +1,12 @@
 #!/bin/sh
 
 alias ls='ls --color=auto --group-directories-first'
+
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
 alias grep='grep --color=auto'
+
 alias freyr='docker run -it --rm -v $PWD:/data freyrcli/freyrjs'
+
 alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
-alias cd='z'
-alias serv='ssh server'

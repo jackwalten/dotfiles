@@ -1,6 +1,6 @@
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-export PATH=$PATH:$HOME/.local/bin:$HOME/.spicetify
+export PATH=$PATH:$HOME/.local/bin
 
 export LESSHISTFILE=-
 # export LESS_TERMCAP_mb=$'\e[1;32m'

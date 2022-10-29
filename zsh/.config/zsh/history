@@ -7508,3 +7508,5 @@ man lsd
 man
 exit
 sudo pacman -S mousepad
+sudo pacman -S starship
+exit
