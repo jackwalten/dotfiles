@@ -17,7 +17,6 @@ EOF
 [ -f $HOME/.bashrc ] && rm $HOME/.bashrc
 [ -f $HOME/.bash_profile ] && rm $HOME/.bash_profile
 [ -f $HOME/.profile ] && rm $HOME/.profile
-[ -f $HOME/.bash_history ] && rm $HOME/.bash_history
 [ -f $HOME/.bash_logout ] && rm $HOME/.bash_logout
 
 stow -D */
