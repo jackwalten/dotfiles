@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit
+
 remote="$(rclone listremotes | fzf)"
 remote="${remote%:}"
 
