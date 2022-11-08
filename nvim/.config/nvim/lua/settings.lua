@@ -26,5 +26,5 @@ set.hidden = true
 set.showtabline = 2
 
 set.mouse = 'a'
-vim.cmd("colorscheme nord")
+vim.cmd("colorscheme doom-one")
 vim.cmd("autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o")
