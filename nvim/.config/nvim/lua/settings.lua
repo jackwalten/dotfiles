@@ -26,5 +26,11 @@ set.hidden = true
 set.showtabline = 2
 
 set.mouse = 'a'
+
+vim.g.nord_disable_background = true
+vim.g.nord_italic = false
+
+require('nord').set()
+
 vim.cmd("colorscheme doom-one")
 vim.cmd("autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o")
