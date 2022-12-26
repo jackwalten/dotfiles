@@ -65,20 +65,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 # plugins
 fpath+=$ZDOTDIR/plugins/zsh-completions/src
 
-# prompt
-# PROMPT='%F{208}%n%f in %F{226}%~%f -> '
-# autoload -Uz vcs_info
-# precmd_vcs_info() { vcs_info }
-# precmd_functions+=( precmd_vcs_info )
-# setopt prompt_subst
-# RPROMPT='${vcs_info_msg_0_}'
-# # PROMPT='${vcs_info_msg_0_}%# '
-# zstyle ':vcs_info:git:*' formats '%b'
-
-
-
-# PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
-
 set -o vi
 source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
