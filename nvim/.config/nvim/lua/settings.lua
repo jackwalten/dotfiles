@@ -30,7 +30,8 @@ set.mouse = 'a'
 vim.g.nord_disable_background = true
 vim.g.nord_italic = false
 
-require('nord').set()
+-- require('nord').set()
+-- vim.g.nightflyTransparent = true
 
-vim.cmd("colorscheme doom-one")
+vim.cmd("colorscheme monokai")
 vim.cmd("autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o")

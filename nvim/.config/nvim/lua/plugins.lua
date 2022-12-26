@@ -15,6 +15,9 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'shaunsingh/nord.nvim'
   use 'NTBBloodbath/doom-one.nvim'
+  use 'bluz71/vim-nightfly-colors'
+  use 'navarasu/onedark.nvim'
+  use 'tanvirtin/monokai.nvim'
   -- My plugins here
   -- use 'foo1/bar1.nvim'
   -- use 'foo2/bar2.nvim'

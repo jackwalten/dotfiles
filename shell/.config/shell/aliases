@@ -1,6 +1,11 @@
 #!/bin/sh
 
-alias ls='ls --color=auto --group-directories-first'
+if command -v exa &>/dev/null
+then
+	alias ls='exa --long --header --git'
+else
+	alias ls='ls --color=auto --group-directories-first -h'
+fi
 
 alias df='df -h'
 alias du='du -h'

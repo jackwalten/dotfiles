@@ -2,7 +2,6 @@
 
 mkdir -p $HOME/.local/bin
 mkdir -p $HOME/.config
-mkdir -p $HOME/.config/zsh
 mkdir -p $HOME/.local/share
 
 mkdir -p $HOME/.ssh
