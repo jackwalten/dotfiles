@@ -1,0 +1,11 @@
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set period 1
+set ratios 1:2:3
+set preview true
+set hidden true
+set drawbox true
+set ignorecase true
+set icons true
+set autoquit true

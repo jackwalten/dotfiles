@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case $SHELL in
+    *zsh)
+        . $HOME/.zshenv
+	;;
+    *bash)
+        . $HOME/.bash_profile || . $HOME/.profile
+	;;
+esac

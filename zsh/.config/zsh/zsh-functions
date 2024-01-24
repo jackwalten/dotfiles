@@ -1,0 +1,91 @@
+#!/bin/zsh
+
+# Function to cd to directory using lf
+function lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
+
+# Function to source files if they exist
+function zsh_add_file() {
+    [ -f "$1" ] && source "$1"
+}
+
+function zsh_add_plugin() {
+    # pretty output
+    local c_reset="\033[0m" c_red="\033[1;31m" c_green="\033[1;32m"
+
+    local PLUGIN_NAME="${1##*\/}"
+    local PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins/$PLUGIN_NAME"
+
+    if [ ! -d "$PLUGIN_DIR" ]; then
+        # clone plugin if it does not exists in $PLUGIN_DIR
+        printf "%b==> [zsh-plugin]%b Getting plugin '%s'\n" "$c_green" "$c_reset" "$PLUGIN_NAME"
+
+        git clone --depth 1 --recurse-submodules "https://github.com/${1}.git" "$PLUGIN_DIR" || \
+            { printf "%b==> [zsh-plugin]%b Error getting plugin '%s'\n" "$c_red" "$c_reset" "$PLUGIN_NAME"; return 1; }
+    fi
+
+    # at this point, $PLUGIN_DIR will exist (except in
+    # case of network issue), so source the plugin
+    zsh_add_file "$PLUGIN_DIR/$PLUGIN_NAME.plugin.zsh" || \
+        zsh_add_file "$PLUGIN_DIR/$PLUGIN_NAME.zsh" || \
+        zsh_add_file "$PLUGIN_DIR/$(basename $PLUGIN_DIR/*.plugin.zsh | head -n1 )" || \
+        { printf "%b==> [zsh-plugin]%b Error sourcing plugin '%s' from '%s'\n" "$c_red" "$c_reset" "$PLUGIN_NAME" "$PLUGIN_DIR"; return 1; }
+}
+
+function zsh_add_completion() {
+    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+    PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins/$PLUGIN_NAME"
+    if [ -d "$PLUGIN_DIR" ]; then 
+        # For completions
+		completion_file_path=$(ls $PLUGIN_DIR/_*)
+		fpath+="$(dirname "${completion_file_path}")"
+        zsh_add_file "$PLUGIN_DIR/$PLUGIN_NAME.plugin.zsh"
+    else
+        git clone "https://github.com/$1.git" "$PLUGIN_DIR"
+		fpath+=$(ls $PLUGIN_DIR/_*)
+        [ -f $ZDOTDIR/.zccompdump ] && $ZDOTDIR/.zccompdump
+    fi
+	completion_file="$(basename "${completion_file_path}")"
+	if [ "$2" = true ] && compinit "${completion_file:1}"
+}
+
+function zsh_add_theme() {
+    # pretty output
+    local c_reset="\033[0m" c_red="\033[1;31m" c_green="\033[1;32m"
+
+    local PLUGIN_NAME="${1##*\/}"
+    local PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins/$PLUGIN_NAME"
+
+    if [ ! -d "$PLUGIN_DIR" ]; then
+        # clone plugin if it does not exists in $PLUGIN_DIR
+        printf "%b==> [zsh-plugin]%b Getting plugin '%s'\n" "$c_green" "$c_reset" "$PLUGIN_NAME"
+
+        git clone --depth 1 --recurse-submodules "https://github.com/${1}.git" "$PLUGIN_DIR" || \
+            { printf "%b==> [zsh-plugin]%b Error getting plugin '%s'\n" "$c_red" "$c_reset" "$PLUGIN_NAME"; return 1; }
+    fi
+
+    # at this point, $PLUGIN_DIR will exist (except in
+    # case of network issue), so source the plugin
+    zsh_add_file "$PLUGIN_DIR/$PLUGIN_NAME.zsh-theme" || \
+        zsh_add_file "$PLUGIN_DIR/$PLUGIN_NAME.zsh-theme" || \
+        { printf "%b==> [zsh-plugin]%b Error sourcing theme '%s' from '%s'\n" "$c_red" "$c_reset" "$PLUGIN_NAME" "$PLUGIN_DIR"; return 1; }
+}
+
+function zsh_update_plugins() {
+    ZPLUGINDIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
+    for d in $ZPLUGINDIR/*/.git(/); do
+        echo "Updating ${d:h:t}..."
+        command git -C "${d:h}" pull --ff --recurse-submodules --depth 1 --rebase --autostash
+    done
+}

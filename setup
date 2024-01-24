@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -eu
+
+sudo tee /etc/X11/xorg.conf.d/00-keyboard.conf <<EOF
+Section "InputClass"
+    Identifier "system-keyboard"
+    MatchIsKeyboard "on"
+    Option "XkbOptions" "caps:escape"
+EndSection
+EOF
+
+sudo systemctl enable vnstat.service \
+	libvirtd.service \
+	lightdm.service \
+	fstrim.timer \
+	man-db.timer \
+	plocate-updatedb.timer \
+	vnstat.service \
+	sshd.service \
+	docker.service \
+	pkgfile-update.timer
+
+sudo usermod -aG docker,libvirt,wireshark $USER
+
+sudo pkgfile --update
+sudo updatedb
+sudo mandb
+
+for i in */ ; do
+    stow -D $i
+    stow $i
+done

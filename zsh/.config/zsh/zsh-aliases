@@ -1,0 +1,7 @@
+#!/bin/sh
+
+alias ls='ls -vh --group-directories-first --color=auto'
+alias grep='grep --color=auto'
+alias pwgen='pwgen -1cyns'
+alias rm='rm -I'
+# alias dotfiles='git --git-dir=$HOME/.dotfiles-new --work-tree=$HOME'
