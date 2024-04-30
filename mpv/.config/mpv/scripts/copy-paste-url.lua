@@ -19,7 +19,8 @@ function openURL()
 	if g == 'linux' then 
 		subprocess = {
 		name = "subprocess",
-		args = { "xclip", "-o","-selection","clipboard"},
+        -- args = { "xclip", "-o","-selection","clipboard"},
+        args = { "wl-paste" },
 		playback_only = false,
 		capture_stdout = true,
 		capture_stderr = true
