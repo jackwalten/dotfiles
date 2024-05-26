@@ -8,7 +8,12 @@ function check_os()
 	if os_path == '\\' then
 		return 'windows'
 	elseif os_path == '/' then
-		return 'linux'
+		local ds = os.getenv('XDG_SESSION_TYPE')
+        if ds == 'wayland' then
+            return 'wayland'
+        elseif ds == 'x11' then
+            return 'x11'
+        end
 	end
 
 end
@@ -16,11 +21,18 @@ end
 function openURL()
    
 	local g = check_os()
-	if g == 'linux' then 
+	if g == 'wayland' then 
 		subprocess = {
 		name = "subprocess",
-        -- args = { "xclip", "-o","-selection","clipboard"},
-        args = { "wl-paste" },
+        args = { "wl-paste"},
+		playback_only = false,
+		capture_stdout = true,
+		capture_stderr = true
+			}
+    elseif g == 'x11' then
+		subprocess = {
+		name = "subprocess",
+        args = { "xclip", "-o","-selection","clipboard"},
 		playback_only = false,
 		capture_stdout = true,
 		capture_stderr = true

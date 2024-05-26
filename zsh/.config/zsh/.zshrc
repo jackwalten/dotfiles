@@ -4,9 +4,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # Options
 setopt AUTO_CD
@@ -27,6 +27,7 @@ zle_highlight=('paste:none')     # Extremely annoying highlight when pasting.
 
 # Colors
 autoload -Uz colors && colors
+eval $(dircolors)
 
 # History in cache directory:
 HISTSIZE=1000000
@@ -50,18 +51,14 @@ zmodload zsh/complist
 autoload -Uz compinit ; compinit -d ${XDG_CACHE_HOME:-$HOME/.cache}/.zcompdump
 _comp_options+=(globdots)        # Include hidden files.
 zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/.zcompcache"
 zstyle ':completion:*' rehash true
-zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
-zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:*:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Bash completions
+autoload -U +X bashcompinit && bashcompinit
 
 # fzf
 if [ -f /usr/share/fzf/completion.zsh ] ; then . /usr/share/fzf/completion.zsh ; fi
@@ -70,8 +67,6 @@ if [ -f /usr/share/fzf/key-bindings.zsh ] ; then . /usr/share/fzf/key-bindings.z
 # Vim mode
 bindkey -v
 export KEYTIMEOUT=1
-# autoload edit-command-line; zle -N edit-command-line
-# bindkey '^e' edit-command-line
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -82,39 +77,13 @@ bindkey -M menuselect 'up' vi-up-line-or-history
 bindkey -M menuselect 'right' vi-forward-char
 bindkey "^?" backward-delete-char           # Fix Backspace key in insert mode
 
-# Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#      [[ $1 = 'block' ]]; then
-#     echo -ne '\e[2 q'
-#   elif [[ ${KEYMAP} == main ]] ||
-#        [[ ${KEYMAP} == viins ]] ||
-#        [[ ${KEYMAP} = '' ]] ||
-#        [[ $1 = 'beam' ]]; then
-#     echo -ne '\e[6 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[6 q"
-# }
-# zle -N zle-line-init
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-
 # Source important files
 source $ZDOTDIR/zsh-aliases
 source $ZDOTDIR/zsh-functions
 
 # Prompt
-# zsh_add_theme romkatv/powerlevel10k
-# [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats '%b '
-setopt PROMPT_SUBST
-PROMPT='%F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+zsh_add_theme romkatv/powerlevel10k
+[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 
 # Zoxide
 if command -v zoxide 1>/dev/null; then
@@ -122,16 +91,6 @@ if command -v zoxide 1>/dev/null; then
 fi
 
 # Plugins
-# zsh_add_plugin hlissner/zsh-autopair
-# zsh_add_plugin olets/zsh-window-title
 zsh_add_plugin zsh-users/zsh-completions
-# zsh_add_plugin MichaelAquilina/zsh-you-should-use
 zsh_add_plugin zsh-users/zsh-syntax-highlighting
-zsh_add_plugin zsh-users/zsh-history-substring-search
 zsh_add_plugin zsh-users/zsh-autosuggestions
-
-# History substring search options
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down

@@ -16,3 +16,4 @@ export PATH="$PATH:$HOME/.local/bin:$GEM_HOME/bin"
 
 export EDITOR=nvim
 export BROWSER=firefox
+export GTK_USE_PORTAL=1

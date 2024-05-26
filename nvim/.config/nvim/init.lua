@@ -53,38 +53,68 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    {
+        "folke/tokyonight.nvim",
+        config = function()
+            require("tokyonight").setup({
+                styles = {
+                    comments = { italic = false },
+                    keywords = { italic = false },
+                },
+                transparent = true,
+            })
+            vim.cmd.colorscheme("tokyonight-night")
+        end,
+    },
     -- {
-    --     "folke/tokyonight.nvim",
+    --     "rose-pine/neovim",
     --     config = function()
-    --         require("tokyonight").setup({
+    --         require("rose-pine").setup({
     --             styles = {
-    --                 comments = { italic = false },
-    --                 keywords = { italic = false },
+    --                 italic = false,
+    --                 transparency = true,
     --             },
-    --             transparent = true,
     --         })
-    --         vim.cmd.colorscheme("tokyonight-night")
+    --         vim.cmd.colorscheme("rose-pine")
+    --     end,
+    -- },
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     priority = 1000,
+    --     config = function()
+    --         require("catppuccin").setup({
+    --             flavour = "mocha",
+    --             transparent_background = true,
+    --             no_italic = true,
+    --         })
+    --         vim.cmd.colorscheme("catppuccin")
     --     end,
     -- },
     {
-        "rose-pine/neovim",
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000,
         config = function()
-            require("rose-pine").setup({
-                styles = {
-                    italic = false,
-                    transparency = true,
+            require("gruvbox").setup({
+                italic = {
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
+                    operators = false,
+                    folds = false,
                 },
+                transparent_mode = true,
             })
-            vim.cmd.colorscheme("rose-pine")
+            vim.cmd.colorscheme("gruvbox")
         end,
     },
-    {
-        "numToStr/Comment.nvim",
-        config = function()
-            require("Comment").setup()
-        end,
-        lazy = false,
-    },
+    -- {
+    --     "numToStr/Comment.nvim",
+    --     config = function()
+    --         require("Comment").setup()
+    --     end,
+    --     lazy = false,
+    -- },
     {
         "nvim-treesitter/nvim-treesitter",
         config = function()
